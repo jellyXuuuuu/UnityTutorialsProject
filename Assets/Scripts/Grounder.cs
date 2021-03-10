@@ -5,14 +5,14 @@ public class Grounder : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        TouchedGround?.Invoke(other);
+        OnTouchedGround?.Invoke(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        LeftGround?.Invoke(other);        
+        OnLeftGround?.Invoke(other);        
     }
 
-    public event Action<Collider> TouchedGround;
-    public event Action<Collider> LeftGround;
+    public event Action<Collider> OnTouchedGround;
+    public event Action<Collider> OnLeftGround;
 }

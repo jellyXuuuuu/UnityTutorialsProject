@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float baseSpeed;
     private float xInput = 0, zInput = 0;
 
-    [SerializeField] private KeyCode playerJumpKey;
+    [SerializeField] private KeyCode jumpKey;
     [SerializeField] private float jumpImpulse;
     private bool shouldJump = false;
     private bool isGrounded;
@@ -38,20 +38,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        playerGrounder.TouchedGround += OnTouchedGround;
-        playerGrounder.LeftGround += OnLeftGround;
+        playerGrounder.OnTouchedGround += OnTouchedGround;
+        playerGrounder.OnLeftGround += OnLeftGround;
     }
 
     private void OnDisable()
     {
-        playerGrounder.TouchedGround -= OnTouchedGround;
-        playerGrounder.LeftGround -= OnLeftGround;
+        playerGrounder.OnTouchedGround -= OnTouchedGround;
+        playerGrounder.OnLeftGround -= OnLeftGround;
     }
 
     private void OnDestroy()
     {
-        playerGrounder.TouchedGround -= OnTouchedGround;
-        playerGrounder.LeftGround -= OnLeftGround;
+        playerGrounder.OnTouchedGround -= OnTouchedGround;
+        playerGrounder.OnLeftGround -= OnLeftGround;
     }
 
     private void Update()
@@ -59,11 +59,11 @@ public class PlayerMovement : MonoBehaviour
         xInput = Input.GetAxis("Horizontal");
         zInput = Input.GetAxis("Vertical");
 
-        if (Input.GetKeyDown(playerJumpKey))
+        if (Input.GetKeyDown(jumpKey))
         {
             shouldJump = true;
         }
-        else if(Input.GetKeyUp(playerJumpKey))
+        else if(Input.GetKeyUp(jumpKey))
         {
             shouldJump = false;
         }
