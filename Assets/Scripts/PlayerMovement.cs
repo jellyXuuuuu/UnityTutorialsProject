@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private KeyCode playerJumpKey;
     [SerializeField] private float jumpImpulse;
     private bool shouldJump = false;
-    private bool isGrounded = false;
+    private bool isGrounded;
 
     [SerializeField] private KeyCode sprintKey;
     [SerializeField] private float sprintSpeed;
@@ -36,22 +36,22 @@ public class PlayerMovement : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
     }
 
-    private void onEnable()
+    private void OnEnable()
     {
-        playerGrounder.TouchedGround += onTouchedGround;
-        playerGrounder.LeftGround += onLeftGround;
+        playerGrounder.TouchedGround += OnTouchedGround;
+        playerGrounder.LeftGround += OnLeftGround;
     }
 
     private void OnDisable()
     {
-        playerGrounder.TouchedGround -= onTouchedGround;
-        playerGrounder.LeftGround -= onLeftGround;
+        playerGrounder.TouchedGround -= OnTouchedGround;
+        playerGrounder.LeftGround -= OnLeftGround;
     }
 
     private void OnDestroy()
     {
-        playerGrounder.TouchedGround -= onTouchedGround;
-        playerGrounder.LeftGround -= onLeftGround;
+        playerGrounder.TouchedGround -= OnTouchedGround;
+        playerGrounder.LeftGround -= OnLeftGround;
     }
 
     private void Update()
@@ -62,6 +62,10 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(playerJumpKey))
         {
             shouldJump = true;
+        }
+        else if(Input.GetKeyUp(playerJumpKey))
+        {
+            shouldJump = false;
         }
 
         if (Input.GetKeyDown(sprintKey))
@@ -109,12 +113,11 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRigidbody.AddForce(new Vector3(0, jumpImpulse, 0), ForceMode.Impulse);
             shouldJump = false;
-            isGrounded = false;
         }
 
     }
 
-    public PlayerMovementState State
+    public  PlayerMovementState State
     {
         get
         {
@@ -131,12 +134,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void onTouchedGround(Collider other)
+    private void OnTouchedGround(Collider other)
     {
         isGrounded = true;
     }
 
-    private void onLeftGround(Collider other)
+    private void OnLeftGround(Collider other)
     {
         isGrounded = false;
     }
