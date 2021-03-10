@@ -10,7 +10,6 @@ public enum PlayerMovementState
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
-
     private Rigidbody playerRigidbody;
     [SerializeField] private Grounder playerGrounder;
 
@@ -20,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private KeyCode jumpKey;
     [SerializeField] private float jumpImpulse;
     private bool shouldJump = false;
-    private bool isGrounded;
+    private bool isGrounded = false;
 
     [SerializeField] private KeyCode sprintKey;
     [SerializeField] private float sprintSpeed;
@@ -30,6 +29,23 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float crouchSpeed;
     private bool shouldCrouch = false;
 
+    public PlayerMovementState State
+    {
+        get
+        {
+            if (shouldSprint)
+            {
+                return PlayerMovementState.Sprinting;
+            }
+
+            if (shouldCrouch)
+            {
+                return PlayerMovementState.Crouching;
+            }
+
+            return PlayerMovementState.Normal;
+        }
+    }
 
     private void Awake()
     {
@@ -115,23 +131,6 @@ public class PlayerMovement : MonoBehaviour
             shouldJump = false;
         }
 
-    }
-
-    public  PlayerMovementState State
-    {
-        get
-        {
-            if (shouldSprint)
-            {
-                return PlayerMovementState.Sprinting;
-            }
-            if (shouldCrouch)
-            {
-                return PlayerMovementState.Crouching;
-            }
-
-            return PlayerMovementState.Normal;
-        }
     }
 
     private void OnTouchedGround(Collider other)
